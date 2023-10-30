@@ -30,14 +30,12 @@ public class PasswordEncoderFilter extends HttpFilter implements Filter {
      */
     public PasswordEncoderFilter() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
 	/**

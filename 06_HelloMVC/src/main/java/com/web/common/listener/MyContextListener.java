@@ -17,14 +17,12 @@ public class MyContextListener implements ServletContextListener {
      * Default constructor. 
      */
     public MyContextListener() {
-        // TODO Auto-generated constructor stub
     }
 
 	/**
      * @see ServletContextListener#contextDestroyed(ServletContextEvent)
      */
     public void contextDestroyed(ServletContextEvent sce)  { 
-         // TODO Auto-generated method stub
     }
 
 	/**

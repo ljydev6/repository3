@@ -25,7 +25,6 @@ public class MemberListServlet extends HttpServlet {
      */
     public MemberListServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -86,7 +85,6 @@ public class MemberListServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

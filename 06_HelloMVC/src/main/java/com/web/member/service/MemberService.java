@@ -1,12 +1,13 @@
 package com.web.member.service;
 
-import static com.web.common.JDBCTemplate.*;
+import static com.web.common.JDBCTemplate.close;
+import static com.web.common.JDBCTemplate.commit;
+import static com.web.common.JDBCTemplate.getConnection;
+import static com.web.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
-import java.util.List;
 import java.util.Map;
 
-import com.web.admin.model.dao.AdminDao;
 import com.web.member.model.dao.MemberDao;
 import com.web.member.model.dto.Member;
 

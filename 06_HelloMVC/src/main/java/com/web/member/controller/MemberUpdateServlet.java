@@ -1,7 +1,6 @@
 package com.web.member.controller;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +23,6 @@ public class MemberUpdateServlet extends HttpServlet {
      */
     public MemberUpdateServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

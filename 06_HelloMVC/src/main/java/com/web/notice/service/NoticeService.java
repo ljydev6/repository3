@@ -17,12 +17,22 @@ public class NoticeService {
 		return service;
 	}
 
-	public List<Notice> getNoticeList() {
+	public List<Notice> getNoticeList(int cPage, int numPerpage) {
 		
 		Connection conn = getConnection();
 		
-		List<Notice> result = NoticeDao.getDao().getNoticeList(conn);
+		List<Notice> result = NoticeDao.getDao().getNoticeList(conn, cPage, numPerpage);
 		
+		close(conn);
+		
+		return result;
+	}
+
+	public Notice selectNotice(int noticeNo) {
+		
+		Connection conn = getConnection();
+		
+		Notice result = NoticeDao.getDao().selectNotice(conn, noticeNo);
 		
 		close(conn);
 		

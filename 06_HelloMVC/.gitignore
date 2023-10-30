@@ -2,3 +2,4 @@
 /.dbeaver/*
 .classpath
 .project
+/bin/

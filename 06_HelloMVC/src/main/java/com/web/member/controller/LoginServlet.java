@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.tribes.util.Arrays;
-
 import com.web.member.model.dto.Member;
 import com.web.member.service.MemberService;
 
@@ -34,8 +32,8 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 1. 클라이언트가 보낸 아이디와 패스워드를 받아온다.
 		// request.getParameter(), request.getParameterValues()
-		String userId = request.getParameter("userId");
-		String password = request.getParameter("password");
+//		String userId = request.getParameter("userId");
+//		String password = request.getParameter("password");
 		// 2. DB의 MEMBER 테이블에서 보낸 아이디와 패스워드가 일치하는 회원을 가져온다.
 		// 3. 결과를 출력한다(응답 페이지를 선택한다.)
 		

@@ -19,7 +19,7 @@
         </tr>
         <tr>
             <th>내 용</th>
-            <td><textarea name="content"></td>
+            <td><textarea name="content"></textarea></td>
         </tr>
         <tr>
             <th colspan="2">
