@@ -105,6 +105,7 @@ public class NoticeDao {
 			pstmt.setString(1, notice.getNoticeTitle());
 			pstmt.setString(2, notice.getNoticeWriter());
 			pstmt.setString(3, notice.getNoticeContent());
+			pstmt.setString(4, notice.getFilePath());
 			result = pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -121,7 +122,8 @@ public class NoticeDao {
 			pstmt = conn.prepareStatement(sql.getProperty("updateNotice"));
 			pstmt.setString(1, notice.getNoticeTitle());
 			pstmt.setString(2, notice.getNoticeContent());
-			pstmt.setInt(3, notice.getNoticeNo());
+			pstmt.setString(3, notice.getFilePath());
+			pstmt.setInt(4, notice.getNoticeNo());
 			result = pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -141,6 +143,25 @@ public class NoticeDao {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int selectNoticeCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = -1;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectNoticeCount"));
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
 			close(pstmt);
 		}
 		return result;

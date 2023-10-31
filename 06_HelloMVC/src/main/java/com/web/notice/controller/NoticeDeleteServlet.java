@@ -23,7 +23,6 @@ public class NoticeDeleteServlet extends HttpServlet {
      */
     public NoticeDeleteServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -54,7 +53,6 @@ public class NoticeDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

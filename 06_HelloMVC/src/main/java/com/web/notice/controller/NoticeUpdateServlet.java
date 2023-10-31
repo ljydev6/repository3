@@ -24,7 +24,6 @@ public class NoticeUpdateServlet extends HttpServlet {
      */
     public NoticeUpdateServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -47,7 +46,6 @@ public class NoticeUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

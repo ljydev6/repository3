@@ -11,7 +11,7 @@
     table#tbl-notice th {width: 125px; border:1px solid; padding: 5px 0; text-align:center;} 
     table#tbl-notice td {border:1px solid; padding: 5px 0 5px 10px; text-align:left;}
 </style>
- <div id="notice-container">
+ <section id="notice-container">
     <form action="<%=type.equals("write")?request.getContextPath()+"/notice/noticewriteend.do"
     									:request.getContextPath()+"/notice/noticeupdateend.do" %>" method="post">
 		<%=type.equals("write")?"":"<input type=\"hidden\" name=\"no\" value=\""+notice.getNoticeNo()+"\">" %>
@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <th>첨부파일</th>
-            <td><input type="file" name="attach"></td>
+            <td><input type="file" name="attach" value="<%=type.equals("write")?"":notice.getFilePath() %>"></td>
         </tr>
         <tr>
             <th>내 용</th>
@@ -42,7 +42,7 @@
         </tr>
     </table>
     </form>
-</div>
+</section>
 <script>
 
 </script>

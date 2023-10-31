@@ -24,7 +24,6 @@ public class NoticeUpdateEndServlet extends HttpServlet {
      */
     public NoticeUpdateEndServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -36,9 +35,11 @@ public class NoticeUpdateEndServlet extends HttpServlet {
 		if(noticeNo>0) {
 			String noticeTitle = request.getParameter("title");
 			String noticeContent = request.getParameter("content");
+			String filePath = request.getParameter("filePath");
 			Notice notice = Notice.builder().noticeNo(noticeNo)
 											.noticeTitle(noticeTitle)
 											.noticeContent(noticeContent)
+											.filePath(filePath)
 											.build();
 			int result = NoticeService.getService().updateNotice(notice);
 			String msg, loc;
@@ -62,7 +63,6 @@ public class NoticeUpdateEndServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

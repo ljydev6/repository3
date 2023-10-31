@@ -74,6 +74,13 @@ public class NoticeService {
 		close(conn);
 		return result;
 	}
+
+	public int selectNoticeCount() {
+		Connection conn = getConnection();
+		int result = NoticeDao.getDao().selectNoticeCount(conn);
+		close(conn);
+		return result;
+	}
 	
 	
 }

@@ -22,7 +22,6 @@ public class NoticeWriteEndServlet extends HttpServlet {
      */
     public NoticeWriteEndServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -32,9 +31,11 @@ public class NoticeWriteEndServlet extends HttpServlet {
 		String noticeTitle = request.getParameter("title");
 		String noticeWriter = request.getParameter("author");
 		String noticeContent = request.getParameter("content");
+		String filePath = request.getParameter("filePath");
 		Notice notice = Notice.builder().noticeTitle(noticeTitle)
 										.noticeWriter(noticeWriter)
 										.noticeContent(noticeContent)
+										.filePath(filePath)
 										.build();
 		int result = NoticeService.getService().writeNotice(notice);
 		
@@ -55,7 +56,6 @@ public class NoticeWriteEndServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
