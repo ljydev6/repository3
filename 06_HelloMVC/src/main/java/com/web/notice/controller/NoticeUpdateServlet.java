@@ -9,14 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.web.common.exception.BadAccessException;
-import com.web.member.model.dto.Member;
 import com.web.notice.model.dto.Notice;
 import com.web.notice.service.NoticeService;
 
 /**
  * Servlet implementation class NoticeUpdateServlet
  */
-@WebServlet("/notice/noticeupdate.do")
+@WebServlet(name="noticeUpdate",urlPatterns = "/notice/noticeupdate.do")
 public class NoticeUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,8 +31,6 @@ public class NoticeUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Member loginMember = (Member)request.getSession().getAttribute("loginMember");
-		if(loginMember.getUserid().equals("admin")) {
 		String no = request.getParameter("noticeNo");
 		int noticeNo = Integer.parseInt(no!=null?no:"-1");
 		if(noticeNo>0) {
@@ -43,9 +40,6 @@ public class NoticeUpdateServlet extends HttpServlet {
 			request.getRequestDispatcher("/views/notice/noticeWrite.jsp").forward(request, response);
 		}else {
 			throw new BadAccessException("부적합한 글 번호 입니다.");
-		}
-		}else {
-			throw new BadAccessException("공지사항 수정은 관리자만 가능합니다.");
 		}
 	}
 

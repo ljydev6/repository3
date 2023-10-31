@@ -10,22 +10,28 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import com.web.common.exception.BadAccessException;
+import com.web.member.model.dto.Member;
 
 /**
- * Servlet Filter implementation class EncodingFilter
+ * Servlet Filter implementation class LoginCheckFilter
  */
-@WebFilter(urlPatterns = "/*")
-public class EncodingFilter extends HttpFilter implements Filter {
+@WebFilter(servletNames = {"updateMember","memberView","updatePassword","memberList","searchMember",
+							"deleteNotice","noticeWrite","noticeWriteEnd","noticeUpdate","noticeUpdateEnd"})
+public class LoginCheck1Filter extends HttpFilter implements Filter {
        
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -4206839943295746575L;
+	private static final long serialVersionUID = 8389636738956999604L;
 
 	/**
      * @see HttpFilter#HttpFilter()
      */
-    public EncodingFilter() {
+    public LoginCheck1Filter() {
         super();
     }
 
@@ -39,9 +45,12 @@ public class EncodingFilter extends HttpFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		
+		HttpServletRequest req = (HttpServletRequest)request;
+		HttpSession session = req.getSession();
+		Member loginMember = (Member)session.getAttribute("loginMember");
+		if(loginMember == null) {
+			throw new BadAccessException("로그인이 필요한 페이지입니다.");
+		}
 		chain.doFilter(request, response);
 	}
 

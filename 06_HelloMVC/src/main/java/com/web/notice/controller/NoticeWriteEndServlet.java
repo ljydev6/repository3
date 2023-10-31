@@ -13,7 +13,7 @@ import com.web.notice.service.NoticeService;
 /**
  * Servlet implementation class NoticeWriteEndServlet
  */
-@WebServlet("/notice/noticewriteend.do")
+@WebServlet(name = "noticeWriteEnd",urlPatterns = "/notice/noticewriteend.do")
 public class NoticeWriteEndServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

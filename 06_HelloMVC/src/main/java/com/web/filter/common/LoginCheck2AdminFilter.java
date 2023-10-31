@@ -17,20 +17,20 @@ import com.web.common.exception.BadAccessException;
 import com.web.member.model.dto.Member;
 
 /**
- * Servlet Filter implementation class LoginCheckFilter
+ * Servlet Filter implementation class LoginCheckAdminFilter
  */
-@WebFilter(servletNames = {"updateMember","memberView","updatePassword","memberList","searchMember"})
-public class LoginCheckFilter extends HttpFilter implements Filter {
+@WebFilter(servletNames = {"deleteNotice","noticeWrite","noticeWriteEnd","noticeUpdate","noticeUpdateEnd"})
+public class LoginCheck2AdminFilter extends HttpFilter implements Filter {
        
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 8389636738956999604L;
+	private static final long serialVersionUID = 8332895359214282629L;
 
 	/**
      * @see HttpFilter#HttpFilter()
      */
-    public LoginCheckFilter() {
+    public LoginCheck2AdminFilter() {
         super();
     }
 
@@ -44,12 +44,12 @@ public class LoginCheckFilter extends HttpFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest)request;
+		// place your code here
+		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
-		Member loginMember = (Member)session.getAttribute("loginMember");
-		if(loginMember == null) {
-			throw new BadAccessException("잘못된 접근입니다. 관리자에게 문의하세요.");
-		}
+		Member mem = (Member)session.getAttribute("loginMember");
+		if(!mem.getUserid().equals("admin")) throw new BadAccessException("권한이 충분하지 않습니다.");
+		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}
 

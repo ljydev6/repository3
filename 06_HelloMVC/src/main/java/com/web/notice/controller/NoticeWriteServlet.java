@@ -8,13 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.web.common.exception.BadAccessException;
-import com.web.member.model.dto.Member;
-
 /**
  * Servlet implementation class NoticeWriteServlet
  */
-@WebServlet("/notice/noticewrite.do")
+@WebServlet(name="noticeWrite",urlPatterns = "/notice/noticewrite.do")
 public class NoticeWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,13 +27,8 @@ public class NoticeWriteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Member loginMember = (Member)request.getSession().getAttribute("loginMember");
-		if(loginMember!=null && loginMember.getUserid().equals("admin")) {
-			request.setAttribute("type", "write");
-			request.getRequestDispatcher("/views/notice/noticeWrite.jsp").forward(request, response);
-		}else {
-			throw new BadAccessException("공지사항은 관리자만 작성할 수 있습니다.");
-		}
+		request.setAttribute("type", "write");
+		request.getRequestDispatcher("/views/notice/noticeWrite.jsp").forward(request, response);
 	}
 
 	/**
