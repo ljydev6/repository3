@@ -24,7 +24,11 @@
             <th>첨부파일</th>
             <td>
             <!-- 있으면 이미지출력하기 없으면 공란 -->
-           	<%=notice.getFilePath()!=null?"<img src='"+request.getContextPath()+"/img/file.png'>":"" %>
+            <%-- <%String filePath = notice.getFilePath();
+            if(filePath!=null){
+            	%>
+            <%} %> --%>
+           	<%=notice.getFilePath()!=null?"<span id='download-container'><img src='"+request.getContextPath()+"/img/file.png'><sub>"+notice.getFilePath()+"</sub></span>":""%>
             </td>
         </tr>
         <tr>
@@ -49,6 +53,9 @@
 		if(confirm('정말로 삭제하시겠습니까?')){
 			location.assign("<%=request.getContextPath()%>/notice/noticedelete.do?noticeNo=<%=notice.getNoticeNo()%>");
 		}
-	}
+	};
+	$("#download-container").click(e=>{
+		location.assign("<%=request.getContextPath()%>/filedownload.do?fname=<%=notice.getFilePath()%>")
+	});
 </script>
 <%@ include file="/views/common/footer.jsp"%>

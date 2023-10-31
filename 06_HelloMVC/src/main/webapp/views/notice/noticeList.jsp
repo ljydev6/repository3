@@ -38,7 +38,7 @@
 				<td><%=n.getNoticeNo() %></td>
 				<td><%=n.getNoticeTitle() %></td>
 				<td><%=n.getNoticeWriter() %></td>
-				<td><%=n.getFilePath()!=null?"<img src="+request.getContextPath()+"/img/file.png\" width=\"25\">"
+				<td><%=n.getFilePath()!=null?"<img src=\""+request.getContextPath()+"/img/file.png\" width=\"25\"><sub>"+n.getFilePath()+"</sub>"
 											:"" %></td>
 				<td><%=n.getNoticeDate() %></td>
 			</tr>

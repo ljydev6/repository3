@@ -13,7 +13,7 @@
 </style>
  <section id="notice-container">
     <form action="<%=type.equals("write")?request.getContextPath()+"/notice/noticewriteend.do"
-    									:request.getContextPath()+"/notice/noticeupdateend.do" %>" method="post">
+    									:request.getContextPath()+"/notice/noticeupdateend.do" %>" method="post" enctype="multipart/form-data">
 		<%=type.equals("write")?"":"<input type=\"hidden\" name=\"no\" value=\""+notice.getNoticeNo()+"\">" %>
         <table id="tbl-notice">
         <tr>
@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <th>내 용</th>
-            <td><textarea name="content"><%=type.equals("write")?"":notice.getNoticeContent() %></textarea></td>
+            <td><textarea name="content" cols="45" rows="10" style="resize: none;"><%=type.equals("write")?"":notice.getNoticeContent() %></textarea></td>
         </tr>
         <tr>
             <th colspan="2">
