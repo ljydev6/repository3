@@ -70,7 +70,7 @@ public class NoticeWriteEndServlet extends HttpServlet {
 		// MultipartRequest클래스가 제공하는 메소드를 이용해서 가져온다.
 		// MultipartRequest.getOriginalFileName("key"); -> type=file 의 name 속성값
 		// MultipartRequest.getFileSystemName("key");
-		String ori = mrequest.getOriginalFileName("attach");
+//		String ori = mrequest.getOriginalFileName("attach");
 		String rename = mrequest.getFilesystemName("attach");
 		String filePath = rename;
 		Notice notice = Notice.builder().noticeTitle(noticeTitle)
