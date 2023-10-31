@@ -16,7 +16,7 @@ import com.web.notice.service.NoticeService;
 /**
  * Servlet implementation class NoticeListServlet
  */
-@WebServlet("/notice/noticelist.do")
+@WebServlet("/notice/noticeList.do")
 public class NoticeListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

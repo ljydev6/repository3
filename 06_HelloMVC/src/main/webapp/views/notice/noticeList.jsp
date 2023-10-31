@@ -4,6 +4,12 @@
 <%@ include file="/views/common/header.jsp" %>
 <%List<Notice> noticeList = (List<Notice>)request.getAttribute("noticeList");
 %>
+<style>
+    section#notice-container{width:600px; margin:0 auto; text-align:center;}
+    section#notice-container h2{margin:10px 0;}
+    table#tbl-notice{width:100%; margin:0 auto; border:1px solid black; border-collapse:collapse;}
+    table#tbl-notice th, table#tbl-notice td {border:1px solid; padding: 5px 0; text-align:center;} 
+</style>
 <section id="notice-container">
         <h2>공지사항</h2>
         <table id="tbl-notice">
@@ -46,15 +52,16 @@
     	$('#tbl-notice > tbody > tr').on('click',(e)=>{
     		const target=$(e.target);
     		let path = '<%=request.getContextPath() %>/notice/notice.do?noticeNo=';
-    		if(target.is(td)){
-    			path = path + target.parent().child().first().text;
+    		if(target.is('td')){
+    			console.log(target.parent());
+    			path = path + target.parent().children().first().text();
     		}else{
-    			path = path + target.child().first().text;
+    			path = path + target.children().first().text();
     		}
     		location.assign(path);
     	});
     	$('#writeNotice').on('click',()=>{
-    		location.assign('<%=request.getContextPath() %>/notice/writenotice.do');
+    		location.assign('<%=request.getContextPath() %>/notice/noticewrite.do');
     	});
     </script>
 <%@ include file="/views/common/footer.jsp" %>

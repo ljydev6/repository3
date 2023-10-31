@@ -1,7 +1,7 @@
 package com.web.notice.service;
 
-import static com.web.common.JDBCTemplate.close;
-import static com.web.common.JDBCTemplate.getConnection;
+import static com.web.common.JDBCTemplate.*;
+
 
 import java.sql.Connection;
 import java.util.List;
@@ -36,6 +36,42 @@ public class NoticeService {
 		
 		close(conn);
 		
+		return result;
+	}
+
+	public int writeNotice(Notice notice) {
+		Connection conn = getConnection();
+		int result = NoticeDao.getDao().writeNotice(conn, notice);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int updateNotice(Notice notice) {
+		Connection conn = getConnection();
+		int result = NoticeDao.getDao().updateNotice(conn, notice);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int deleteNotice(int noticeNo) {
+		Connection conn = getConnection();
+		int result = NoticeDao.getDao().deleteNotice(conn,noticeNo);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
 		return result;
 	}
 	

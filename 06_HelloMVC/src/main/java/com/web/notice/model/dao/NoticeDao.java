@@ -26,7 +26,7 @@ public class NoticeDao {
 	{
 		String path = NoticeDao.class.getResource("/sql/notice/noticesql.properties").getPath();
 		try(FileReader fr = new FileReader(path)) {
-			
+			sql.load(fr);
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -44,7 +44,7 @@ public class NoticeDao {
 			pstmt.setInt(2, endData);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				result.add(getNotice(rs));
+				result.add(getNoticeList(rs));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -88,4 +88,61 @@ public class NoticeDao {
 				.build();
 	}
 	
+	private Notice getNoticeList(ResultSet rs) throws SQLException{
+		return Notice.builder().noticeNo(rs.getInt("NOTICE_NO"))
+				.noticeTitle(rs.getString("NOTICE_TITLE"))
+				.noticeWriter(rs.getString("NOTICE_WRITER"))
+				.noticeDate(rs.getDate("NOTICE_DATE"))
+				.filePath(rs.getString("FILEPATH"))
+				.build();
+	}
+
+	public int writeNotice(Connection conn, Notice notice) {
+		PreparedStatement pstmt = null;
+		int result = -1;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("insertNotice"));
+			pstmt.setString(1, notice.getNoticeTitle());
+			pstmt.setString(2, notice.getNoticeWriter());
+			pstmt.setString(3, notice.getNoticeContent());
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateNotice(Connection conn, Notice notice) {
+		PreparedStatement pstmt = null;
+		int result = -1;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("updateNotice"));
+			pstmt.setString(1, notice.getNoticeTitle());
+			pstmt.setString(2, notice.getNoticeContent());
+			pstmt.setInt(3, notice.getNoticeNo());
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteNotice(Connection conn, int noticeNo) {
+		PreparedStatement pstmt = null;
+		int result = -1;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("deleteNotice"));
+			pstmt.setInt(1, noticeNo);
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }

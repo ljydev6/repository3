@@ -68,7 +68,7 @@
 						<a href="<%=request.getContextPath() %>">Home</a>
 					</li>
 					<li class="notice">
-						<a href="">공지사항</a>
+						<a href="<%=request.getContextPath() %>/notice/noticeList.do">공지사항</a>
 					</li>
 					<li class="board">
 						<a href="">게시판</a>

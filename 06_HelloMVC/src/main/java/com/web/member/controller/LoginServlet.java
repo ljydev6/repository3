@@ -55,12 +55,11 @@ public class LoginServlet extends HttpServlet {
 			c.setMaxAge(0);
 			response.addCookie(c);
 		}
-		
 		Member loginResult = MemberService.getService().login(userid,password);
 		if(loginResult != null) {
 			System.out.println("로그인 성공");
 			request.getSession().setAttribute("loginMember", loginResult);
-			response.sendRedirect(request.getContextPath());
+			response.sendRedirect(request.getHeader("Referer"));
 		}else {
 			System.out.println("로그인 실패");
 			request.setAttribute("msg", "ID나 패스워드가 일치하지 않습니다.");
