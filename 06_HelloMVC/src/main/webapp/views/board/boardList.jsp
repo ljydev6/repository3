@@ -46,7 +46,7 @@
 			<%} %>
 			</tbody>
 		</table>
-
+		<%=loginMember!=null?"<button class='btn btn-outline-primary' type='button' id='btnBoardWrite'>글 쓰기</button>":"" %>
 		<%=(String)request.getAttribute("pageBar") %>
 	</section>
 	<script>
@@ -59,6 +59,9 @@
 			path = path + target.children().first().text();
 		}
 		location.assign(path);
+	});
+	$('#btnBoardWrite').click(()=>{
+		location.assign('<%=request.getContextPath()%>/board/boardWrite.do');
 	});
 	</script>
 <%@ include file="/views/common/footer.jsp"%>

@@ -1,7 +1,6 @@
 package com.web.filter.common;
 
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,28 +10,26 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.web.common.exception.BadAccessException;
-import com.web.member.model.dto.Member;
 
 /**
- * Servlet Filter implementation class LoginCheckFilter
+ * Servlet Filter implementation class MultipartContentFilter
  */
-@WebFilter(servletNames = {"updateMember","memberView","updatePassword","memberList","searchMember",
-							"deleteNotice","noticeWrite","noticeWriteEnd","noticeUpdate","noticeUpdateEnd",
-							"boardWrite","boardWriteEnd","boardUpdate","boardUpdateEnd","boardDelete"})
-public class LoginCheck1Filter extends HttpFilter implements Filter {
+@WebFilter(servletNames = {"noticeWriteEnd","boardUpdateEnd","boardWriteEnd"})
+public class MultipartContentFilter extends HttpFilter implements Filter {
        
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 8389636738956999604L;
+	private static final long serialVersionUID = 1L;
 
 	/**
      * @see HttpFilter#HttpFilter()
      */
-    public LoginCheck1Filter() {
+    public MultipartContentFilter() {
         super();
     }
 
@@ -46,12 +43,11 @@ public class LoginCheck1Filter extends HttpFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest)request;
-		HttpSession session = req.getSession();
-		Member loginMember = (Member)session.getAttribute("loginMember");
-		if(loginMember == null) {
-			throw new BadAccessException("로그인이 필요한 페이지입니다.");
+		// place your code here
+		if(!ServletFileUpload.isMultipartContent((HttpServletRequest) request)) {
+			throw new BadAccessException("잘못된 접근입니다. 관리자에게 문의하세요");
 		}
+		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}
 

@@ -139,11 +139,74 @@ public class BoardDao {
 	
 	public int updateBoardReadCount(Connection conn, int boardNo) {
 		PreparedStatement pstmt = null;
+		
 		int result = -1;
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("updateBoardReadCount"));
 			pstmt.setInt(1, boardNo);
 			pstmt.setInt(2, boardNo);
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int insertBoard(Connection conn, Board board) {
+		PreparedStatement pstmt = null;
+		int result = -1;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("insertBoard"));
+			pstmt.setString(1, board.getBoardTitle());
+			pstmt.setString(2, board.getBoardWriter());
+			pstmt.setString(3, board.getBoardContent());
+			pstmt.setString(4, board.getBoardOriginalFileName());
+			pstmt.setString(5, board.getBoardRenamedFileName());
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateBoard(Connection conn, Board board) {
+		PreparedStatement pstmt = null;
+		int result = -1;
+		String query = sql.getProperty("updateBoard");
+		if(board.getBoardOriginalFileName()==null) {
+			query = query.replace(", BOARD_ORIGINAL_FILENAME = ?, BOARD_RENAMED_FILENAME = ?","");
+		}
+		System.out.println(query);
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, board.getBoardTitle());
+			pstmt.setString(2, board.getBoardContent());
+			if(board.getBoardOriginalFileName()!=null) {
+				pstmt.setString(3, board.getBoardOriginalFileName());
+				pstmt.setString(4, board.getBoardRenamedFileName());
+				pstmt.setInt(5, board.getBoardNo());
+			}else {
+				pstmt.setInt(3, board.getBoardNo());
+			}
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int deleteBoard(Connection conn, int boardNo) {
+		PreparedStatement pstmt = null;
+		int result = -1;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("deleteBoard"));
+			pstmt.setInt(1, boardNo);
 			result = pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -167,10 +230,11 @@ public class BoardDao {
 		return Board.builder().boardNo(rs.getInt("BOARD_NO"))
 							  .boardTitle(rs.getString("BOARD_TITLE"))
 							  .boardWriter(rs.getString("BOARD_WRITER"))
+							  .boardContent(rs.getString("BOARD_CONTENT"))
 							  .boardDate(rs.getDate("BOARD_DATE"))
+							  .boardOriginalFileName(rs.getString("BOARD_ORIGINAL_FILENAME"))
 							  .boardRenamedFileName(rs.getString("BOARD_RENAMED_FILENAME"))
 							  .boardReadCount(rs.getInt("BOARD_READCOUNT"))
 							  .build();
 	}
-	
 }

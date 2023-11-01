@@ -9,6 +9,7 @@
     table#tbl-board{width:500px; margin:0 auto; border:1px solid black; border-collapse:collapse; clear:both; }
     table#tbl-board th {width: 125px; border:1px solid; padding: 5px 0; text-align:center;} 
     table#tbl-board td {border:1px solid; padding: 5px 0 5px 10px; text-align:left;}
+   	span#download-container{cursor: pointer;}
 </style>
    
 		<section id="board-container">
@@ -34,6 +35,9 @@
 				<th>첨부파일</th>
 				<td>
 				 <!-- 있으면 이미지출력 없으면 공란, 클릭하면 다운로드할 수 있게 구현 -->
+				 <% if(board.getBoardRenamedFileName()!=null){ %>
+				 	<span id="download-container"><img src="<%=request.getContextPath()%>/img/file.png"><sub><%=board.getBoardOriginalFileName() %></sub></span>
+				 <%} %>
 				</td>
 			</tr>
 			<tr>
@@ -41,7 +45,8 @@
 				<td><%=board.getBoardContent() %></td>
 			</tr>
 			<%--글작성자/관리자인경우 수정삭제 가능 --%>
-			<%if(loginMember!=null && loginMember.getUserid().equals(board.getBoardWriter())){ %>
+			<%if(loginMember!=null && (loginMember.getUserid().equals(board.getBoardWriter())||
+								loginMember.getUserid().equals("admin"))){ %>
 			<tr>
 				<th colspan="2">
 					<button id="updateBtn">수정하기</button>
@@ -49,8 +54,19 @@
 				</th>
 			</tr>
 			<%} %>
-			
 		</table>
-   
     </section>
+    <script>
+    $('#updateBtn').click(e=>{
+    	location.assign("<%=request.getContextPath()%>/board/boardUpdate.do?boardNo=<%=board.getBoardNo()%>");
+    });
+    $('#deleteBtn').click(e=>{
+    	if(confirm('정말로 삭제하시겠습니까?')){
+    		location.assign("<%=request.getContextPath()%>/board/boardDelete.do?boardNo=<%=board.getBoardNo()%>");
+    	}
+    });
+    $('#download-container').click(e=>{
+    	location.assign("<%=request.getContextPath()%>/board/filedownload.do?boardNo=<%=board.getBoardNo()%>");
+    });
+    </script>
 <%@ include file="/views/common/footer.jsp"%>

@@ -48,9 +48,9 @@ public class NoticeWriteEndServlet extends HttpServlet {
 		//						byte -> Kbyte(1024) -> Mbyte(1024) -> Gbyte(1024) -> Tbyte
 		// 4 : 인코딩 방식 : String -> UTF-8
 		// 5 : fileRename 규칙 설정(클래스) -> DefaultFileRenamePolicy클래스 제공
-		if(!ServletFileUpload.isMultipartContent(request)) {
-			throw new BadAccessException("잘못된 접근입니다. 관리자에게 문의하세요");
-		}
+//		if(!ServletFileUpload.isMultipartContent(request)) {
+//			throw new BadAccessException("잘못된 접근입니다. 관리자에게 문의하세요");
+//		} -> 필터 설정 걸어줌
 		// 1. 파일을 저장할 위치를 절대경로로 가져옴
 		// ServletContext 클래스에서 getRealPath() 메소드를 제공 -> webapp폴더
 		String path = getServletContext().getRealPath("/upload/notice/");
