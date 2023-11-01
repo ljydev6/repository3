@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.web.board.model.dto.Board;
+import com.web.board.model.dto.BoardComment;
 
 public class BoardDao {
 	private static BoardDao dao = new BoardDao();
@@ -144,7 +145,6 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("updateBoardReadCount"));
 			pstmt.setInt(1, boardNo);
-			pstmt.setInt(2, boardNo);
 			result = pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -236,5 +236,59 @@ public class BoardDao {
 							  .boardRenamedFileName(rs.getString("BOARD_RENAMED_FILENAME"))
 							  .boardReadCount(rs.getInt("BOARD_READCOUNT"))
 							  .build();
+	}
+
+	public int insertBoardComment(Connection conn, BoardComment bc) {
+		PreparedStatement pstmt = null;
+		int result = -1;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("insertBoardComment"));
+			pstmt.setInt(1, bc.getLevel());
+			pstmt.setString(2,bc.getBoardCommentWriter());
+			pstmt.setString(3, bc.getBoardCommentContent());
+			pstmt.setInt(4,bc.getBoardRef());
+			if(bc.getBoardCommentRef()>0) {
+				pstmt.setInt(5, bc.getBoardCommentRef());
+			}else {
+				pstmt.setString(5, null);
+			}
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public List<BoardComment> selectBoardComments(Connection conn, int boardNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<BoardComment> comments = new ArrayList<>();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectBoardComments"));
+			pstmt.setInt(1, boardNo);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				comments.add(getComment(rs));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return comments;
+	}
+	
+	private BoardComment getComment(ResultSet rs) throws SQLException{
+		return BoardComment.builder().boardCommentNo(rs.getInt("BOARD_COMMENT_NO"))
+									 .level(rs.getInt("BOARD_COMMENT_LEVEL"))
+									 .boardCommentWriter(rs.getString("BOARD_COMMENT_WRITER"))
+									 .boardCommentContent(rs.getString("BOARD_COMMENT_CONTENT"))
+									 .boardRef(rs.getInt("BOARD_REF"))
+									 .boardCommentRef(rs.getInt("BOARD_COMMENT_REF"))
+									 .boardCommentDate(rs.getDate("BOARD_COMMENT_DATE"))
+									 .build();
 	}
 }

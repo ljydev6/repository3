@@ -35,7 +35,7 @@ public class BoardUpdateServlet extends HttpServlet {
 		String no = request.getParameter("boardNo");
 		int boardNo = Integer.parseInt(no!=null?no:"-1");
 		if(boardNo>0) {
-			Board board = BoardService.getService().selectBoardByBoardNo(boardNo);
+			Board board = BoardService.getService().selectBoardByBoardNo(boardNo,true);
 			if(board!=null) {
 				if(loginMember.getUserid().equals(board.getBoardWriter())||loginMember.getUserid().equals("admin")) {
 					request.setAttribute("board", board);

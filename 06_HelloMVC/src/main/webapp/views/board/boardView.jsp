@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.web.board.model.dto.Board" %>
+<%@ page import="com.web.board.model.dto.Board,com.web.board.model.dto.BoardComment,java.util.List" %>
 <%@ include file="/views/common/header.jsp"%>
-<% Board board = (Board)request.getAttribute("board"); %>
+<% 
+Board board = (Board)request.getAttribute("board");
+List<BoardComment> comments = (List<BoardComment>)request.getAttribute("comments");
+%>
 <style>
     section#board-container{width:600px; margin:0 auto; text-align:center;}
     section#board-container h2{margin:10px 0;}
@@ -10,6 +13,27 @@
     table#tbl-board th {width: 125px; border:1px solid; padding: 5px 0; text-align:center;} 
     table#tbl-board td {border:1px solid; padding: 5px 0 5px 10px; text-align:left;}
    	span#download-container{cursor: pointer;}
+   	 div#comment-container button#btn-insert{width:60px;height:50px; color:white;
+    background-color:#3300FF;position:relative;top:-20px;}
+        /*댓글테이블*/
+    table#tbl-comment{width:580px; margin:0 auto; border-collapse:collapse; clear:both; } 
+    table#tbl-comment tr td{border-bottom:1px solid; border-top:1px solid; padding:5px; text-align:left; line-height:120%;}
+    table#tbl-comment tr td:first-of-type{padding: 5px 5px 5px 50px;}
+    table#tbl-comment tr td:last-of-type {text-align:right; width: 100px;}
+    table#tbl-comment button.btn-reply{display:none;}
+    table#tbl-comment button.btn-delete{display:none;}
+    table#tbl-comment tr:hover {background:lightgray;}
+    table#tbl-comment tr:hover button.btn-reply{display:inline;}
+    table#tbl-comment tr:hover button.btn-delete{display:inline;}
+    table#tbl-comment tr.level2 {color:gray; font-size: 14px;}
+    table#tbl-comment sub.comment-writer {color:navy; font-size:14px}
+    table#tbl-comment sub.comment-date {color:tomato; font-size:10px}
+    table#tbl-comment tr.level2 td:first-of-type{padding-left:100px;}
+    table#tbl-comment tr.level2 sub.comment-writer {color:#8e8eff; font-size:14px}
+    table#tbl-comment tr.level2 sub.comment-date {color:#ff9c8a; font-size:10px}
+    /*답글관련*/
+    table#tbl-comment textarea{margin: 4px 0 0 0;}
+    table#tbl-comment button.btn-insert{width:60px; height:23px; color:white; background:#3300ff; position:relative; top:-5px; left:10px;}
 </style>
    
 		<section id="board-container">
@@ -55,6 +79,38 @@
 			</tr>
 			<%} %>
 		</table>
+		
+		<div id="comment-container">
+			<div class="comment-editor">
+				<form action="<%=request.getContextPath() %>/board/insertComment.do" method="post" onsubmit="return loginCheck()">
+					<input type="hidden" name="boardRef" value="<%=board.getBoardNo() %>">
+					<input type="hidden" name="level" value="1">
+					<input type="hidden" name="writer" value="<%=loginMember!=null?loginMember.getUserid():""%>">
+					<input type="hidden" name="boardCommentRef" value="0">
+					<textarea name="content" rows="3" cols="55" style="resize: none;"></textarea>
+					<button class="btn btn-outline-primary" type="submit" id="btn-insert">등록</button>
+				</form>
+			</div>
+		</div>
+		<% if(!comments.isEmpty()){ %>
+		<table id="tbl-comment">
+			<%for(BoardComment comment:comments){ %>
+			<tr class="level1">
+				<td>
+					<sub class="comment-writer"><%=comment.getBoardCommentWriter() %></sub>
+					<sub class="comment-date"><%=comment.getBoardCommentDate() %></sub>
+					<br>
+					<%=comment.getBoardCommentContent() %>
+				</td>
+				<td>
+					<!-- 댓글(로그인한 사용자만), 삭제버튼만들기 (작성자, 관리자만삭제가능) -->
+					<button class="btn-reply">답글</button>
+					<button class="btn-delete">삭제</button>
+				</td>
+			</tr>
+			<%} %>
+		</table>	
+		<%} %>
     </section>
     <script>
     $('#updateBtn').click(e=>{
@@ -68,5 +124,12 @@
     $('#download-container').click(e=>{
     	location.assign("<%=request.getContextPath()%>/board/filedownload.do?boardNo=<%=board.getBoardNo()%>");
     });
+    const loginCheck = ()=>{
+    	if(<%=loginMember==null%>){
+    		alert('댓글을 작성하려면 로그인이 필요합니다.');
+    		$('#userId').focus();
+    		return false;
+    	}
+    };
     </script>
 <%@ include file="/views/common/footer.jsp"%>

@@ -38,7 +38,7 @@ public class BoardFileDownloadServlet extends HttpServlet {
 		int boardNo = Integer.parseInt(bNo!=null?bNo:"-1");
 		if(boardNo>0) {
 //		String fileName=request.getParameter("fname");
-		Board board = BoardService.getService().selectBoardByBoardNo(boardNo);
+		Board board = BoardService.getService().selectBoardByBoardNo(boardNo,true);
 		String oriFileName = board.getBoardOriginalFileName();
 		String reFileName = board.getBoardRenamedFileName();
 		

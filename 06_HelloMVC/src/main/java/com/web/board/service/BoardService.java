@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.web.board.model.dao.BoardDao;
 import com.web.board.model.dto.Board;
+import com.web.board.model.dto.BoardComment;
 
 public class BoardService {
 	private static BoardService service = new BoardService();
@@ -46,15 +47,17 @@ public class BoardService {
 		return result;
 	}
 	
-	public Board selectBoardByBoardNo(int BoardNo) {
+	public Board selectBoardByBoardNo(int BoardNo, boolean read) {
 		Connection conn = getConnection();
-		int result = BoardDao.getDao().updateBoardReadCount(conn, BoardNo);
-		Board board = null; 
-		if(result>0) {
-			commit(conn);
-			board = BoardDao.getDao().selectBoardByBoardNo(conn, BoardNo);
-		}else {
-			rollback(conn);
+		Board board = BoardDao.getDao().selectBoardByBoardNo(conn, BoardNo); 
+		if(board!=null && !read) {
+			int result = BoardDao.getDao().updateBoardReadCount(conn, BoardNo);
+			
+			if(result>0) {
+				commit(conn);
+				board.setBoardReadCount(board.getBoardReadCount()+1);
+				}
+			else rollback(conn);
 		}
 		close(conn);
 		return board;
@@ -83,5 +86,20 @@ public class BoardService {
 		else rollback(conn);
 		return result;
 	}
+	public int insertBoardComment(BoardComment bc) {
+		Connection conn = getConnection();
+		int result = BoardDao.getDao().insertBoardComment(conn, bc);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	public List<BoardComment> selectBoardComments(int boardNo) {
+		Connection conn = getConnection();
+		List<BoardComment> comments = BoardDao.getDao().selectBoardComments(conn, boardNo);
+		close(conn);
+		return comments;
+	}
+	
 	
 }
