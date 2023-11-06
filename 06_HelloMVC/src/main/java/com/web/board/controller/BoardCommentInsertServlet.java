@@ -40,7 +40,7 @@ public class BoardCommentInsertServlet extends HttpServlet {
 												.boardCommentRef(boardCommentRef)
 												.level(level)
 												.build();
-		int result = BoardService.getService().insertBoardComment(bc);
+		//int result = BoardService.getService().insertBoardComment(bc);
 		response.sendRedirect(request.getContextPath()+"/board/boardView.do?boardNo="+boardNo);
 	}
 

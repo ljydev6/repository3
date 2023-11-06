@@ -46,7 +46,7 @@
 						</tr>
 						<tr>
 							<td colspan="2"><label><input type="checkbox" name="saveId" id="saveId" <%=saveid!=null?"checked":"" %>>아이디저장</label>
-							<button class="btn btn-primary" type="submit" onclick="location.assign('<%=request.getContextPath() %>/member/enrollMember.do')">회원가입</button></td>
+							<button class="btn btn-primary" type="button" onclick="location.assign('<%=request.getContextPath() %>/member/enrollMember.do')">회원가입</button></td>
 						</tr>
 					</table>
 				</form>

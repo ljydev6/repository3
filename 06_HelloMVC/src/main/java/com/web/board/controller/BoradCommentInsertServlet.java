@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class BoardWriteServlet
+ * Servlet implementation class BoradCommentInsertServlet
  */
-@WebServlet(name="boardWrite",urlPatterns = "/board/boardWrite.do")
-public class BoardWriteServlet extends HttpServlet {
+@WebServlet("/board/boardCommentInsert.do")
+public class BoradCommentInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardWriteServlet() {
+    public BoradCommentInsertServlet() {
         super();
     }
 
@@ -25,8 +25,14 @@ public class BoardWriteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("type", "write");
-		request.getRequestDispatcher("/views/board/boardWrite.jsp").forward(request, response);
+		Thread t = new Thread(() -> {
+			try {
+				Thread.sleep(3000);
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
+		t.run();
 	}
 
 	/**

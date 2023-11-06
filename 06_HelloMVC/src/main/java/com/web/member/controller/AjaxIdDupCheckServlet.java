@@ -1,4 +1,4 @@
-package com.web.board.controller;
+package com.web.member.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,17 +7,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.web.member.model.dto.Member;
+import com.web.member.service.MemberService;
+
 /**
- * Servlet implementation class BoardWriteServlet
+ * Servlet implementation class AjaxIdDupCheckServlet
  */
-@WebServlet(name="boardWrite",urlPatterns = "/board/boardWrite.do")
-public class BoardWriteServlet extends HttpServlet {
+@WebServlet("/ajax/idcheck.do")
+public class AjaxIdDupCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardWriteServlet() {
+    public AjaxIdDupCheckServlet() {
         super();
     }
 
@@ -25,8 +28,11 @@ public class BoardWriteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("type", "write");
-		request.getRequestDispatcher("/views/board/boardWrite.jsp").forward(request, response);
+		String userId = request.getParameter("keyword");
+		Member m = MemberService.getService().selectMemberById(userId);
+		response.getWriter().print(m==null);
+		
+		
 	}
 
 	/**

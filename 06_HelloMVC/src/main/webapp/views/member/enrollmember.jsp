@@ -11,7 +11,8 @@
 				<th>아이디</th>
 				<td>
 					<input type="text" placeholder="4글자이상" name="userId" id="userId_" required>
-					<input type="button" value="중복확인" onclick="fn_idDuplicateCheck('<%=request.getContextPath()%>');">
+					<%-- <input type="button" value="중복확인" onclick="fn_idDuplicateCheck('<%=request.getContextPath()%>');"> --%>
+					<span id="idDupCheck"></span>
 				</td>
 			</tr>
 			<tr>
@@ -83,5 +84,37 @@
 	<script src="<%= request.getContextPath()%>/js/testmodule.js">
 
 	</script>
-
+	<script>
+		$('#userId_').keyup(e=>{
+			const value = e.target.value;
+			console.log(value);
+			const $dupCheck = $('#idDupCheck');
+			if(value.length<4){
+				if(value==''){
+					$dupCheck.html('');
+					return false;
+				}
+				$dupCheck.css('color','red').text('아이디는 4글자 이상 입력해주세요');
+				return false;
+			}
+			$.ajax({
+				url:"<%=request.getContextPath()%>/ajax/idcheck.do",
+				data:{'keyword':value},
+				success:data=>{
+					console.log(data);
+					if(data=='true'){
+						$dupCheck.css('color','green').text('사용가능한 아이디입니다');
+					}else{
+						$dupCheck.css('color','red').text('이미 존재하는 아이디입니다');	
+					}
+					
+				},
+				fail:(r,e)=>{
+					console.log(r);
+					console.log(e);
+				}
+			});
+		});
+	</script>
+	
 <%@ include file="/views/common/footer.jsp"%>

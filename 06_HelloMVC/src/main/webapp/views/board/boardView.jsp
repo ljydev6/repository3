@@ -28,7 +28,7 @@ List<BoardComment> comments = (List<BoardComment>)request.getAttribute("comments
     table#tbl-comment tr.level2 {color:gray; font-size: 14px;}
     table#tbl-comment sub.comment-writer {color:navy; font-size:14px}
     table#tbl-comment sub.comment-date {color:tomato; font-size:10px}
-    table#tbl-comment tr.level2 td:first-of-type{padding-left:100px;}
+    table#tbl-comment tr.level2 td:first-of-type{padding-left:100px; text-align: left;}
     table#tbl-comment tr.level2 sub.comment-writer {color:#8e8eff; font-size:14px}
     table#tbl-comment tr.level2 sub.comment-date {color:#ff9c8a; font-size:10px}
     /*답글관련*/
@@ -82,7 +82,7 @@ List<BoardComment> comments = (List<BoardComment>)request.getAttribute("comments
 		
 		<div id="comment-container">
 			<div class="comment-editor">
-				<form action="<%=request.getContextPath() %>/board/insertComment.do" method="post" onsubmit="return loginCheck()">
+				<form action="<%=request.getContextPath() %>/board/boardCommentInsert.do" method="post" onsubmit="return loginCheck()">
 					<input type="hidden" name="boardRef" value="<%=board.getBoardNo() %>">
 					<input type="hidden" name="level" value="1">
 					<input type="hidden" name="writer" value="<%=loginMember!=null?loginMember.getUserid():""%>">
@@ -95,18 +95,20 @@ List<BoardComment> comments = (List<BoardComment>)request.getAttribute("comments
 		<% if(!comments.isEmpty()){ %>
 		<table id="tbl-comment">
 			<%for(BoardComment comment:comments){ %>
-			<tr class="level1">
-				<td>
+			<tr class="level<%=comment.getLevel()%>">
+				<td <%=comment.getLevel()==2?"colspan='2'":"" %>>
 					<sub class="comment-writer"><%=comment.getBoardCommentWriter() %></sub>
 					<sub class="comment-date"><%=comment.getBoardCommentDate() %></sub>
 					<br>
 					<%=comment.getBoardCommentContent() %>
 				</td>
+				<%if(comment.getLevel()==1){ %>
 				<td>
 					<!-- 댓글(로그인한 사용자만), 삭제버튼만들기 (작성자, 관리자만삭제가능) -->
-					<button class="btn-reply">답글</button>
-					<button class="btn-delete">삭제</button>
+					<button class="btn-reply" value="<%=comment.getBoardCommentNo()%>">답글</button>
+					<button class="btn-delete" value="<%=comment.getBoardCommentNo()%>">삭제</button>
 				</td>
+				<%} %>
 			</tr>
 			<%} %>
 		</table>	
@@ -131,5 +133,19 @@ List<BoardComment> comments = (List<BoardComment>)request.getAttribute("comments
     		return false;
     	}
     };
+    $('button.btn-reply').click(e=>{
+    	const $parent = $(e.target).parents('tr');
+    	console.log($parent.next().find('form'));
+    	const $tr = $('<tr>');
+    	const $td = $('<td>').attr('colspan','2');
+    	const $frm = $('.comment-editor > form').clone();
+    	$frm.find('input[name=level]').val('2');
+    	$frm.find('input[name=boardCommentRef]').val($(e.target).val());
+    	$frm.find('textarea').attr('rows','1');
+    	$frm.find('button').removeAttr('id').addClass('btn-insert2');
+    	
+    	$tr.append($td.append($frm))
+    	$parent.after($tr);
+    });
     </script>
 <%@ include file="/views/common/footer.jsp"%>
